@@ -2,7 +2,7 @@ import assert from 'assert'
 import { createClientWithUser } from './scripts/helpers.js'
 import { fixtures } from './scripts/fixtures.js'
 
-describe('Check NFT', () => {
+describe.only('Check NFT', () => {
   it('should return proper response for cid v1', async () => {
     const client = await createClientWithUser()
     const cid = 'bafybeiaj5yqocsg5cxsuhtvclnh4ulmrgsmnfbhbrfxrc3u2kkh35mts4e'
@@ -13,6 +13,8 @@ describe('Check NFT', () => {
 
     const res = await fetch(`check/${cid}`)
     const { ok, value } = await res.json()
+
+    console.log('v', value)
 
     assert.equal(value.cid, cid)
     assert.equal(value.pin.status, 'queued')
