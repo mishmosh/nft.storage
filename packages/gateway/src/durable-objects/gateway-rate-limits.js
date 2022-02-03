@@ -75,11 +75,6 @@ const MINUTE = 1000 * 60
  */
 function getRateLimitingCharacteristics(gatewayUrl) {
   switch (gatewayUrl) {
-    case 'https://ipfs.io':
-      return {
-        RATE_LIMIT_REQUESTS: 800,
-        RATE_LIMIT_TIMEFRAME: MINUTE,
-      }
     case 'https://cf-ipfs.com':
       return {
         RATE_LIMIT_REQUESTS: 100,
