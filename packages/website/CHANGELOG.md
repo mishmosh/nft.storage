@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.23.1](https://github.com/nftstorage/nft.storage/compare/website-v1.23.0...website-v1.23.1) (2022-02-03)
+
+
+### Bug Fixes
+
+* edit to roadmap blog post ([#1209](https://github.com/nftstorage/nft.storage/issues/1209)) ([630b32a](https://github.com/nftstorage/nft.storage/commit/630b32a13029482b5bcf696153e6c136429aaef1))
+
 ## [1.23.0](https://github.com/nftstorage/nft.storage/compare/website-v1.22.2...website-v1.23.0) (2022-01-31)
 
 
