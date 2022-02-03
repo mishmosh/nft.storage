@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.15.0](https://github.com/nftstorage/nft.storage/compare/api-v2.14.1...api-v2.15.0) (2022-02-03)
+
+
+### Features
+
+* track content bytes total metric ([#1199](https://github.com/nftstorage/nft.storage/issues/1199)) ([695e4a5](https://github.com/nftstorage/nft.storage/commit/695e4a5d7bbefc125291cfd001a743683efb6808))
+
 ### [2.14.1](https://github.com/nftstorage/nft.storage/compare/api-v2.14.0...api-v2.14.1) (2022-01-24)
 
 
