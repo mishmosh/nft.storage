@@ -96,7 +96,7 @@ const config = {
             ],
           },
         ],
-        copyright: `Made with 💛 by Protocol Labs.`,
+        copyright: `NFT.Storage is a digital public good, supported with 💛 by Protocol Labs and the Web3.storage team.`,
       },
       prism: {
         theme: lightCodeTheme,
