@@ -8,6 +8,7 @@ import { getCidFromSubdomainUrl } from './utils/cid.js'
 import {
   CIDS_TRACKER_ID,
   SUMMARY_METRICS_ID,
+  REDIRECT_COUNTER_METRICS_ID,
   CF_CACHE_MAX_OBJECT_SIZE,
   HTTP_STATUS_RATE_LIMITED,
   REQUEST_PREVENTED_RATE_LIMIT_CODE,
@@ -94,6 +95,13 @@ export async function gatewayGet(request, env, ctx) {
   } catch (err) {
     const responses = await pSettle(gatewayReqs)
 
+    // Redirect if all failed with rate limited error
+    const wasRateLimited = responses.every(
+      (r) =>
+        r.value?.response?.status === HTTP_STATUS_RATE_LIMITED ||
+        r.value?.requestPreventedCode === REQUEST_PREVENTED_RATE_LIMIT_CODE
+    )
+
     ctx.waitUntil(
       (async () => {
         // Update metrics as all requests failed
@@ -102,14 +110,8 @@ export async function gatewayGet(request, env, ctx) {
             updateGatewayMetrics(request, env, r.value, false)
           )
         )
+        wasRateLimited && updateGatewayRedirectCounter(request, env)
       })()
-    )
-
-    // Redirect if all failed with rate limited error
-    const wasRateLimited = responses.every(
-      (r) =>
-        r.value?.response?.status === HTTP_STATUS_RATE_LIMITED ||
-        r.value?.requestPreventedCode === REQUEST_PREVENTED_RATE_LIMIT_CODE
     )
 
     if (!wasRateLimited) {
@@ -218,6 +220,17 @@ async function updateSummaryCacheMetrics(request, env, response) {
   await stub.fetch(
     getDurableRequestUrl(request, 'metrics/cache', contentLengthStats)
   )
+}
+/**
+ * @param {Request} request
+ * @param {import('./env').Env} env
+ */
+async function updateGatewayRedirectCounter(request, env) {
+  // Get durable object for counter
+  const id = env.gatewayRedirectCounter.idFromName(REDIRECT_COUNTER_METRICS_ID)
+  const stub = env.gatewayRedirectCounter.get(id)
+
+  await stub.fetch(getDurableRequestUrl(request, 'update'))
 }
 
 /**
